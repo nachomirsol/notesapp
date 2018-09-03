@@ -4,7 +4,7 @@ Manage your daily notes in order to get your todo and done tasks.
 
 ## Description
 
-MERN STACK APP: React, node, express and MySQL
+MERN STACK APP: React, node, express and MySQL.
 
 ## Technologies
 

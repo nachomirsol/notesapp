@@ -1,12 +1,15 @@
 require('dotenv').config();
-
 const express = require('express');
 
-const mysql = require('mysql');
+var conn = require('./models/connection');
 
 const app = express();
 
-const bodyParser = require('body-parser');
+conn.connect();
+
+if(conn){
+    console.log('Has conectado')
+}
 
 app.get('/test', (req,res) => {
     res.send('it works');
