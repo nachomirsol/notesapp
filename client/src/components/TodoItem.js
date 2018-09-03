@@ -2,7 +2,8 @@ import React from 'react';
 
 function TodoItem(props) {
 
-    const { fecha, hora, empresa, contacto, email, telefono, concepto } = props.todoList;
+    const { fecha, hora, empresa, contacto, email, telefono, concepto, estado=1 } = props.todoList;
+
     return (
 
         <div className="card">
@@ -11,7 +12,7 @@ function TodoItem(props) {
                     <small>{fecha} {hora} <br/>{empresa}</small>
                 </p>
                 <button type="button" className="button is-info" onClick={() => props.editNote(props.todoList.id, props.todoList.empresa, props.todoList.contacto, props.todoList.email, props.todoList.telefono, props.todoList.concepto)}>Edit</button>
-                <button type="button" className="button is-success" onClick={() => props.removeNote(props.todoList.id)}>&#10004;</button>
+                <button type="button" className="button is-success" onClick={() => props.removeNote(props.todoList.id,props.todoList.estado)}>&#10004;</button>
 
                 <a href="/" className="card-header-icon" aria-label="more options">
                     <span className="icon">

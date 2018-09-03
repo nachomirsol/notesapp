@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert2';
+import axios from 'axios';
 import 'bulma/css/bulma.css';
 import './App.css';
 import Header from './components/Header';
@@ -19,6 +20,8 @@ class App extends Component {
 
   componentDidMount(){
     // Get data from the local storage
+    /* LOCAL STORAGE
+    // Get data from the local storage
     const todoListLS = localStorage.getItem('todoList');
     const doneListLS = localStorage.getItem('doneList');
     if(todoListLS){
@@ -32,13 +35,24 @@ class App extends Component {
         doneList:JSON.parse(doneListLS)
       })
     }
+  */
+ 
+    axios.get('/api/notes/todo')
+      .then(res => this.setState({todoList:res.data}))
+      .catch(err => err)
+
+    axios.get('/api/notes/done')
+    .then(res => this.setState({doneList:res.data}))
+    .catch(err => err)
+  
   }
 
   componentDidUpdate(){
     // Keep data to local storage
     // Set item to create and keep to storage
-    localStorage.setItem('todoList',JSON.stringify(this.state.todoList))
-    localStorage.setItem('doneList',JSON.stringify(this.state.doneList))
+    // localStorage.setItem('todoList',JSON.stringify(this.state.todoList))
+    // localStorage.setItem('doneList',JSON.stringify(this.state.doneList))
+
   }
 
   onChange = (e) => {
@@ -47,15 +61,32 @@ class App extends Component {
 
   createNote = (newNote) => {
 
-    this.setState({
-      // todoList: this.state.todoList.concat(newNote)
-      todoList: [...this.state.todoList,newNote]
+   console.log(newNote);
+    axios.post('http://localhost:5000/api/notes/todo', {
+      empresa:newNote.empresa,
+      contacto:newNote.contacto,
+      email:newNote.email,
+      telefono:newNote.telefono,
+      concepto:newNote.concepto
     })
+      .then(res => console.log(res.data))
+
+      this.setState({
+        // todoList: this.state.todoList.concat(newNote)
+        todoList: [...this.state.todoList,newNote]
+      })
+
   }
 
-  removeItem = (id) => {
+  removeItem = (id,estado) => {
+
+    axios.put('http://localhost:5000/api/notes/todo/'+id,{
+      estado:estado
+    })
+      .then(res => res.data)
 
     const findTask = this.state.todoList.find(elm => elm.id === id);
+    
     this.setState({
       todoList: this.state.todoList.filter(elm => elm.id !== id ),
       doneList: this.state.doneList.concat(findTask)
@@ -162,7 +193,6 @@ class App extends Component {
        console.log('horror')
    })
 }
-
 
   render() {
  

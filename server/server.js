@@ -1,19 +1,24 @@
 require('dotenv').config();
+
 const express = require('express');
 
-var conn = require('./models/connection');
+const notes = require("./routes/api/notes");
+
+const cors = require('cors');
 
 const app = express();
 
-conn.connect();
+const bodyParser = require('body-parser');
 
-if(conn){
-    console.log('Has conectado')
-}
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/test', (req,res) => {
-    res.send('it works');
-});
+//parse application/json middlewares cada petición pasa por estas lineas
+app.use(bodyParser.json());
+
+app.use(cors());
+
+app.use("/api/notes",notes);
 
 const port = process.env.PORT;
 

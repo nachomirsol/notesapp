@@ -2,7 +2,7 @@ import React from 'react';
 
 function DoneItem(props) {
 
-    const { empresa, contacto, email, telefono, concepto } = props.doneList;
+    const { empresa, contacto, email, telefono, concepto,estado} = props.doneList;
 
     return (
 
