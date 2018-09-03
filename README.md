@@ -8,7 +8,7 @@ MERN STACK APP: React, node, express and MySQL.
 
 ## Technologies
 
-- MongoDB
+- MySQL
 - Express.js
 - React.js
 - Node.js
@@ -18,10 +18,13 @@ MERN STACK APP: React, node, express and MySQL.
 - express
 - mysql
 - dotenv
+- cors
+- axios
+- body-parser
 
 ## How to Use it
 
 Clone the repo, npm install to get node modules.
 Go to client directory and also type npm install to get node modules for the client.
-Run node server/server to get the server part. 
-Run npm start at the client folder to start react app
+Type node server/server to run the server. 
+Type npm start at the client directory to run react app
