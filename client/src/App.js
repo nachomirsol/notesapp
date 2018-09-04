@@ -234,14 +234,14 @@ class App extends Component {
                     <article className="media">
                       <div className="media-content">
 
-                      {this.state.todoList.map((element,index) => ( 
+                      {this.state.todoList.length ? this.state.todoList.map((element,index) => ( 
                           <TodoItem  
                             key = {index}
                             todoList = {this.state.todoList[index]}
                             removeNote = {this.removeItem}
                             editNote = {this.editNote}
                           />
-                      ))}
+                      )) : "No hay resultados"}
                       
                       </div>
                     </article>
@@ -259,14 +259,14 @@ class App extends Component {
                     <article className="media">
                       <div className="media-content">
 
-                      {this.state.doneList.map((element,index) => ( 
+                      {this.state.todoList.length ? this.state.doneList.map((element,index) => ( 
                           <DoneItem  
                             key = {index}
                             doneList = {this.state.doneList[index]}
                             removeDone = {this.removeSwalDone}
                             toPending = {this.toPending}
                           />
-                      ))}       
+                      )): "Sin resultados"}       
                       </div>
                     </article>
                 </div>      

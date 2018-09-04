@@ -7,15 +7,18 @@ const conexionDB = require('../../models/connection');
 
 router.get('/todo',(request,response) => {
     
-    conexionDB.query('SELECT * FROM notas WHERE estado="0"', (error,result) =>{
+    conexionDB.query('SELECT * FROM presupuestos.notas WHERE estado="0"', (error,result) =>{
+        if(error) throw error;
         response.json(result);
+        console.log(result);
     });
 });
 
 router.get('/done',(request,response) => {
     
-    conexionDB.query('SELECT * FROM notas WHERE estado="1"', (error,result) =>{
+    conexionDB.query('SELECT * FROM presupuestos.notas WHERE estado="1"', (error,result) =>{
         response.json(result);
+        
     });
 });
 
