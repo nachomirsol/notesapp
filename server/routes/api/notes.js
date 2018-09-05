@@ -7,16 +7,15 @@ const conexionDB = require('../../models/connection');
 
 router.get('/todo',(request,response) => {
     
-    conexionDB.query('SELECT * FROM presupuestos.notas WHERE estado="0"', (error,result) =>{
+    conexionDB.query('SELECT * FROM notas WHERE estado="0"', (error,result) =>{
         if(error) throw error;
         response.json(result);
-        console.log(result);
     });
 });
 
 router.get('/done',(request,response) => {
     
-    conexionDB.query('SELECT * FROM presupuestos.notas WHERE estado="1"', (error,result) =>{
+    conexionDB.query('SELECT * FROM notas WHERE estado="1"', (error,result) =>{
         response.json(result);
         
     });
@@ -25,7 +24,7 @@ router.get('/done',(request,response) => {
 
 router.post('/todo',(request,response) => {
 
-    let body = request.body;
+    let {body} = request;
 
     conexionDB.query('INSERT INTO notas set ?',body, (error, result) => {
         if(error) throw error;
@@ -37,11 +36,38 @@ router.post('/todo',(request,response) => {
 
 
 router.put('/todo/:id', (request,response) => {
-    const id = request.params.id;
+    const {id} = request.params;
 
     conexionDB.query('UPDATE notas SET estado = ? WHERE id= ?', [1,id], (error,result) => {
         if(error) throw error;
         response.send('Note passed to done');
+    })
+})
+
+
+router.put('/done/:id', (request,response) => {
+    const {id} = request.params;
+
+    conexionDB.query('UPDATE notas SET estado = ? WHERE id= ?', [0,id], (error,result) => {
+        if(error) throw error;
+        response.send('Note passed to pending todo');
+    })
+})
+
+router.delete('/delete/:id', (request,response) => {
+    const {id} = request.params;
+    conexionDB.query('DELETE FROM notas WHERE id = ?', id, (error, result) => {
+        if(error) throw error;
+        response.send('Note deleted')
+    })
+})
+
+router.put('/todo/edit/:id' , (request,response) => {
+    const {id} = request.params;
+    const {body} = request
+    conexionDB.query('UPDATE notas SET empresa = ? , contacto = ?, email = ?, telefono = ?, concepto = ? WHERE id = ?',[body.empresa,body.contacto,body.email,body.telefono,body.concepto,id], (error,result) => {
+        if(error) throw error;
+        response.send('Note updated successfully');
     })
 })
 

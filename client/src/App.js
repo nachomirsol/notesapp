@@ -52,7 +52,6 @@ class App extends Component {
     // Set item to create and keep to storage
     // localStorage.setItem('todoList',JSON.stringify(this.state.todoList))
     // localStorage.setItem('doneList',JSON.stringify(this.state.doneList))
-
   }
 
   onChange = (e) => {
@@ -62,13 +61,7 @@ class App extends Component {
   createNote = (newNote) => {
 
    console.log(newNote);
-    axios.post('http://localhost:5000/api/notes/todo', {
-      empresa:newNote.empresa,
-      contacto:newNote.contacto,
-      email:newNote.email,
-      telefono:newNote.telefono,
-      concepto:newNote.concepto
-    })
+    axios.post('http://localhost:5000/api/notes/todo', {empresa:newNote.empresa,contacto:newNote.contacto,email:newNote.email,telefono:newNote.telefono,concepto:newNote.concepto})
       .then(res => console.log(res.data))
 
       this.setState({
@@ -80,10 +73,8 @@ class App extends Component {
 
   removeItem = (id,estado) => {
 
-    axios.put('http://localhost:5000/api/notes/todo/'+id,{
-      estado:estado
-    })
-      .then(res => res.data)
+    axios.put('http://localhost:5000/api/notes/todo/'+id,{estado:estado})
+      .then(res => console.log(res.data))
 
     const findTask = this.state.todoList.find(elm => elm.id === id);
     
@@ -93,20 +84,31 @@ class App extends Component {
     })
   }
 
+
   removeDone = (id) => {
+
+    axios.delete('http://localhost:5000/api/notes/delete/'+id)
+      .then(res => console.log(res.data))
+
     const taskDone = this.state.doneList.filter(elm => elm.id !== id )
     this.setState({
       doneList: taskDone
     })
   }
 
-  toPending = (id) => {
+
+  toPending = (id,estado) => {
+
+    axios.put('http://localhost:5000/api/notes/done/'+id,{estado:estado})
+    .then(res => console.log(res.data))
+
     const findTask = this.state.doneList.find(elm => elm.id === id);
     this.setState({
       todoList: this.state.todoList.concat(findTask),
       doneList: this.state.doneList.filter(elm => elm.id !== id )
     })
   }
+
 
   removeSwalDone = (id) => {
     swal({
@@ -131,7 +133,7 @@ class App extends Component {
         this.removeDone(id)
       } else {
         swal(
-          'Operación cancelada',
+          'No se ha podido eliminar',
         )
       }
     })
@@ -139,23 +141,20 @@ class App extends Component {
 
   updateNote = (id,empresa,contacto,email,telefono,concepto) => {
 
-   // const findTaskToUpdate = this.state.listTodo.find(elm => elm.id === id );
-    const fecha = new Date().getDate()+"-"+(new Date().getMonth() + 1)+"-"+new Date().getFullYear();
-    const hora = new Date().getHours()+":"+new Date().getMinutes();
+    const updatedNote = {id:id, empresa:empresa, contacto:contacto, email:email, telefono:telefono, concepto:concepto}
+    const findIndex = this.state.todoList.findIndex(elm => elm.id === id);
+   
+   // const fecha = new Date().getDate()+"-"+(new Date().getMonth() + 1)+"-"+new Date().getFullYear();
+   // const hora = new Date().getHours()+":"+new Date().getMinutes();
 
-    const updatedNote = {
-      id:id,
-      fecha: fecha,
-      hora:hora,
-      empresa: empresa,
-      contacto:contacto,
-      email:email,
-      telefono:telefono,
-      concepto:concepto
-    }
+    axios.put('http://localhost:5000/api/notes/todo/edit/'+id,{id,empresa,contacto,email,telefono,concepto})
+      .then(res => console.log(res.data))
 
     console.log(updatedNote);
-
+    
+    this.setState({
+      todoList:this.state.todoList.slice(findIndex,findIndex).concat(updatedNote)
+    })
   }
       
   editNote = (id,empresa,contacto,email,telefono,concepto) => { 
@@ -180,14 +179,20 @@ class App extends Component {
            }
        }
    }).then(res => {
-       this.updateNote(
-           id,
-           res.value.empresa,
-           res.value.contacto,
-           res.value.email,
-           res.value.telefono,
-           res.value.concepto
-       )
+      if(res.value){
+        
+        swal(
+          'Nota actualizada correctamente!',
+        )
+
+        this.updateNote(id,res.value.empresa,res.value.contacto,res.value.email,res.value.telefono,res.value.concepto)
+        
+      }else{
+        swal(
+          'No se ha actualizado',
+        )
+      }
+       
    })
    .catch(err => {
        console.log('horror')
@@ -259,7 +264,7 @@ class App extends Component {
                     <article className="media">
                       <div className="media-content">
 
-                      {this.state.todoList.length ? this.state.doneList.map((element,index) => ( 
+                      {this.state.doneList.length ? this.state.doneList.map((element,index) => ( 
                           <DoneItem  
                             key = {index}
                             doneList = {this.state.doneList[index]}

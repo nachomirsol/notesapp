@@ -2,17 +2,17 @@ import React from 'react';
 
 function DoneItem(props) {
 
-    const { empresa, contacto, email, telefono, concepto,estado} = props.doneList;
+    const { empresa, contacto, email, telefono, concepto, estado=0} = props.doneList;
 
     return (
 
         <div className="card">
             <header className="card-header">
                 <p className="card-header-title">
-                    {empresa}
+                    <small> <br/>{empresa}</small>
                 </p>
 
-                <button type="button" className="button is-warning" onClick={() => props.toPending(props.doneList.id)}>P</button>
+                <button type="button" className="button is-warning" onClick={() => props.toPending(props.doneList.id,estado)}>P</button>
                 <button type="button" className="button is-info">Edit</button>
                 <button type="button" className="button is-danger" onClick={() => props.removeDone(props.doneList.id)}>X</button>
                 

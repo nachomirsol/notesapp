@@ -3,9 +3,9 @@ const data = {
 
     database:{
         host     : 'localhost',
-        user     : 'root',
-        password : '',
-        database : 'lovesiat2018'
+        user     : 'test',
+        password : 'test',
+        database : 'test'
     }  
 }
 
