@@ -2,18 +2,18 @@ import React from 'react';
 
 function DoneItem(props) {
 
-    const { empresa, contacto, email, telefono, concepto, estado=0} = props.doneList;
+    const {fecha, hora, empresa, contacto, email, telefono, concepto, estado=0} = props.doneList;
 
     return (
 
         <div className="card">
             <header className="card-header">
                 <p className="card-header-title">
-                    <small> <br/>{empresa}</small>
+                    <small>{fecha.slice(0,10)} {hora} <br/>{empresa}</small>
                 </p>
 
                 <button type="button" className="button is-warning" onClick={() => props.toPending(props.doneList.id,estado)}>P</button>
-                <button type="button" className="button is-info">Edit</button>
+                <button type="button" className="button is-info" onClick = {() => props.editDone(props.doneList.id, props.doneList.empresa, props.doneList.contacto, props.doneList.email, props.doneList.telefono, props.doneList.concepto)}>Edit</button>
                 <button type="button" className="button is-danger" onClick={() => props.removeDone(props.doneList.id)}>X</button>
                 
 

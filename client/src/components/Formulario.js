@@ -20,13 +20,14 @@ class Formulario extends Component {
 
     createNote = (e) => {
         e.preventDefault();
-        const fecha = new Date().getDate() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getFullYear();
+        //const fecha = new Date().getDate() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getFullYear();
         const hora = new Date().getHours() + ":" + new Date().getMinutes();
+
 
         const newNote = {
             id: Date.now().toString(),
-            fecha: fecha,
-            hora: hora,
+            fecha: new Date().toISOString().slice(0, 10).replace('T', ' '),
+            hora: new Date().toISOString().slice(11, 19).replace('T', ' '),
             empresa: this.state.empresa,
             contacto: this.state.contacto,
             email: this.state.email,

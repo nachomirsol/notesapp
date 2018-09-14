@@ -19,24 +19,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    // Get data from the local storage
-    /* LOCAL STORAGE
-    // Get data from the local storage
-    const todoListLS = localStorage.getItem('todoList');
-    const doneListLS = localStorage.getItem('doneList');
-    if(todoListLS){
-      this.setState({
-        todoList:JSON.parse(todoListLS)
-      })
-    }
 
-    if(doneListLS){
-      this.setState({
-        doneList:JSON.parse(doneListLS)
-      })
-    }
-  */
- 
     axios.get('/api/notes/todo')
       .then(res => this.setState({todoList:res.data}))
       .catch(err => err)
@@ -47,13 +30,6 @@ class App extends Component {
   
   }
 
-  componentDidUpdate(){
-    // Keep data to local storage
-    // Set item to create and keep to storage
-    // localStorage.setItem('todoList',JSON.stringify(this.state.todoList))
-    // localStorage.setItem('doneList',JSON.stringify(this.state.doneList))
-  }
-
   onChange = (e) => {
     this.setState({[e.target.name] : e.target.value});
   }
@@ -61,7 +37,7 @@ class App extends Component {
   createNote = (newNote) => {
 
    console.log(newNote);
-    axios.post('http://localhost:5000/api/notes/todo', {empresa:newNote.empresa,contacto:newNote.contacto,email:newNote.email,telefono:newNote.telefono,concepto:newNote.concepto})
+    axios.post('http://localhost:5000/api/notes/todo', {empresa:newNote.empresa,contacto:newNote.contacto,email:newNote.email,telefono:newNote.telefono,concepto:newNote.concepto,fecha:newNote.fecha,hora:newNote.hora})
       .then(res => console.log(res.data))
 
       this.setState({
@@ -139,23 +115,34 @@ class App extends Component {
     })
   }
 
-  updateNote = (id,empresa,contacto,email,telefono,concepto) => {
+  updateNote = (id,empresa,contacto,email,telefono,concepto,fecha,hora) => {
 
-    const updatedNote = {id:id, empresa:empresa, contacto:contacto, email:email, telefono:telefono, concepto:concepto}
+    const updatedNote = {
+      id:id, 
+      empresa:empresa, 
+      contacto:contacto,
+      email:email, 
+      telefono:telefono, 
+      concepto:concepto,
+      fecha:new Date().toISOString().slice(0, 10).replace('T', ' '),
+      hora:new Date().toISOString().slice(11, 19).replace('T', ' ')
+    }
     const findIndex = this.state.todoList.findIndex(elm => elm.id === id);
-   
-   // const fecha = new Date().getDate()+"-"+(new Date().getMonth() + 1)+"-"+new Date().getFullYear();
-   // const hora = new Date().getHours()+":"+new Date().getMinutes();
 
-    axios.put('http://localhost:5000/api/notes/todo/edit/'+id,{id,empresa,contacto,email,telefono,concepto})
+    const newList = this.state.todoList;
+    newList[findIndex] = updatedNote;
+
+
+    axios.put('http://localhost:5000/api/notes/todo/edit/'+id,{id,empresa,contacto,email,telefono,concepto,fecha,hora})
       .then(res => console.log(res.data))
 
     console.log(updatedNote);
     
     this.setState({
-      todoList:this.state.todoList.slice(findIndex,findIndex).concat(updatedNote)
+      todoList: newList
     })
   }
+
       
   editNote = (id,empresa,contacto,email,telefono,concepto) => { 
 
@@ -176,6 +163,8 @@ class App extends Component {
                email: document.getElementById('email').value,
                telefono: document.getElementById('telefono').value,
                concepto: document.getElementById('concepto').value,
+               fecha:new Date().toISOString().slice(0, 10).replace('T', ' '),
+               hora:new Date().toISOString().slice(11, 19).replace('T', ' '),
            }
        }
    }).then(res => {
@@ -185,7 +174,7 @@ class App extends Component {
           'Nota actualizada correctamente!',
         )
 
-        this.updateNote(id,res.value.empresa,res.value.contacto,res.value.email,res.value.telefono,res.value.concepto)
+        this.updateNote(id,res.value.empresa,res.value.contacto,res.value.email,res.value.telefono,res.value.concepto,res.value.fecha,res.value)
         
       }else{
         swal(
@@ -197,6 +186,79 @@ class App extends Component {
    .catch(err => {
        console.log('horror')
    })
+}
+
+
+
+updateDone = (id,empresa,contacto,email,telefono,concepto) => {
+
+  const updatedDone = {
+    id:id,
+    empresa:empresa,
+    contacto:contacto, 
+    email:email, 
+    telefono:telefono, 
+    concepto:concepto,
+    fecha:new Date().toISOString().slice(0, 10).replace('T', ' '),
+    hora:new Date().toISOString().slice(11, 19).replace('T', ' ')
+  }
+
+  const findIndex = this.state.doneList.findIndex(elm => elm.id === id);
+
+  const newList = this.state.doneList;
+  newList[findIndex] = updatedDone;
+
+  axios.put('http://localhost:5000/api/notes/done/edit/'+id,{id,empresa,contacto,email,telefono,concepto})
+    .then(res => console.log(res.data))
+
+  console.log(updatedDone);
+  
+  this.setState({
+    doneList: newList
+  })
+}
+
+
+editDone = (id,empresa,contacto,email,telefono,concepto) => { 
+
+  swal({
+     title: 'Actualizar nota',
+     
+     html:
+         `<input id="empresa" class="swal2-input" value="${empresa}" placeholder="empresa">` +
+         `<input id="contacto" class="swal2-input" value="${contacto}" placeholder="contacto">` +
+         `<input id="email" class="swal2-input" value="${email}" placeholder="email">` +
+         `<input id="telefono" class="swal2-input" value="${telefono}" placeholder = "telefono">` +
+         `<input id="concepto" class="swal2-input" value="${concepto}" placeholder = "concepto">`,
+     focusConfirm: false,
+     preConfirm: () => {
+         return {
+             empresa: document.getElementById('empresa').value,
+             contacto: document.getElementById('contacto').value,
+             email: document.getElementById('email').value,
+             telefono: document.getElementById('telefono').value,
+             concepto: document.getElementById('concepto').value,
+         }
+     }
+ }).then(res => {
+    if(res.value){
+      
+      swal(
+        'Nota actualizada correctamente!',
+      )
+
+      this.updateDone(id,res.value.empresa,res.value.contacto,res.value.email,res.value.telefono,res.value.concepto)
+      
+    }else{
+      swal(
+        'No se ha actualizado',
+      )
+    }
+     
+ })
+ .catch(err => {
+     console.log('horror')
+ })
 }
 
   render() {
@@ -270,6 +332,7 @@ class App extends Component {
                             doneList = {this.state.doneList[index]}
                             removeDone = {this.removeSwalDone}
                             toPending = {this.toPending}
+                            editDone = {this.editDone}
                           />
                       )): "Sin resultados"}       
                       </div>
