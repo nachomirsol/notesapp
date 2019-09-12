@@ -1,6 +1,6 @@
 import React from "react";
 
-function TodoItem(props) {
+const Item = ({ list, remove, edit }) => {
   const {
     fecha,
     hora,
@@ -10,7 +10,7 @@ function TodoItem(props) {
     telefono,
     concepto,
     estado = 1
-  } = props.todoList;
+  } = list;
 
   return (
     <div className="card">
@@ -25,13 +25,13 @@ function TodoItem(props) {
           type="button"
           className="button is-info"
           onClick={() =>
-            props.editNote(
-              props.todoList.id,
-              props.todoList.empresa,
-              props.todoList.contacto,
-              props.todoList.email,
-              props.todoList.telefono,
-              props.todoList.concepto
+            edit(
+              list.id,
+              list.empresa,
+              list.contacto,
+              list.email,
+              list.telefono,
+              list.concepto
             )
           }
         >
@@ -40,9 +40,7 @@ function TodoItem(props) {
         <button
           type="button"
           className="button is-success"
-          onClick={() =>
-            props.removeNote(props.todoList.id, props.todoList.estado)
-          }
+          onClick={() => remove(list.id, list.estado)}
         >
           &#10004;
         </button>
@@ -64,6 +62,6 @@ function TodoItem(props) {
       </div>
     </div>
   );
-}
+};
 
-export default TodoItem;
+export default Item;

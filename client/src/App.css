@@ -1,25 +1,25 @@
-.Home {
+.home {
   text-align: center;
   background-color: rgba(240, 240, 240, 0.7);
 }
 
-.Home-logo {
-  animation: Home-logo-spin infinite 20s linear;
+.home-logo {
+  animation: home-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-.Home-header {
+.home-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
 }
 
-.Home-title {
+.home-title {
   font-size: 1.5em;
 }
 
-.Home-intro {
+.home-intro {
   font-size: large;
 }
 

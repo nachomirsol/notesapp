@@ -1,12 +1,12 @@
 import React from "react";
-import TodoItem from "../TodoItem/TodoItem";
+import Item from "../Item/Item";
 
 const NotesBoard = ({
   title,
   subtitle,
   removeItem,
-  editNote,
-  todoList,
+  edit,
+  list,
   toPending,
   border
 }) => (
@@ -18,13 +18,13 @@ const NotesBoard = ({
       <div className={`box ${border}`}>
         <article className="media">
           <div className="media-content">
-            {todoList.length
-              ? todoList.map((element, index) => (
-                  <TodoItem
+            {list.length
+              ? list.map((element, index) => (
+                  <Item
                     key={index}
-                    todoList={todoList[index]}
-                    removeNote={removeItem}
-                    editNote={editNote}
+                    list={list[index]}
+                    remove={removeItem}
+                    edit={edit}
                   />
                 ))
               : "No hay resultados"}
