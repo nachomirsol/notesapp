@@ -98,7 +98,7 @@ const Home = () => {
     });
   };
 
-  const edit = (id, empresa, contacto, email, telefono, concepto, list) => {
+  const edit = (id, empresa, contacto, email, telefono, concepto) => {
     swal({
       title: "Actualizar nota",
 
@@ -140,14 +140,14 @@ const Home = () => {
             res.value.concepto,
             res.value.fecha,
             res.value,
-            list
+            todoList
           );
         } else {
           swal("No se ha actualizado");
         }
       })
       .catch(err => {
-        console.log("horror");
+        console.log(err);
       });
   };
 
@@ -182,6 +182,8 @@ const Home = () => {
 
     const newList = list;
     newList[findIndex] = updatedNote;
+
+    console.log("newList");
 
     axios
       .put("http://localhost:5000/api/notes/todo/edit/" + id, {
