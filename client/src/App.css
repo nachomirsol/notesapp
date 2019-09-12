@@ -1,74 +1,77 @@
-.App {
+.Home {
   text-align: center;
-  background-color:rgba(240,240,240,0.7);
+  background-color: rgba(240, 240, 240, 0.7);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+.Home-logo {
+  animation: Home-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-.App-header {
+.Home-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
 }
 
-.App-title {
+.Home-title {
   font-size: 1.5em;
 }
 
-.App-intro {
+.Home-intro {
   font-size: large;
 }
 
 .card {
-  margin-top:10px;
-  background-color:rgba(230,230,230,0.75);
+  margin-top: 10px;
+  background-color: rgba(230, 230, 230, 0.75);
 }
 
 .is-danger {
-  width:35px;
-  height:35px;
-  margin-top:7px;
-  float:right;
-  
+  width: 35px;
+  height: 35px;
+  margin-top: 7px;
+  float: right;
 }
 
 .is-info {
-  width:35px;
-  height:35px;
-  margin-top:7px;
-  margin-right:3px;
-  float:right;
+  width: 35px;
+  height: 35px;
+  margin-top: 7px;
+  margin-right: 3px;
+  float: right;
 }
 
 .is-warning {
-  width:35px;
-  height:35px;
-  margin-top:7px;
-  margin-right:3px;
-  float:right;
+  width: 35px;
+  height: 35px;
+  margin-top: 7px;
+  margin-right: 3px;
+  float: right;
 }
 
 .is-success {
-  width:35px;
-  height:35px;
-  margin-top:7px;
-  margin-right:3px;
-  float:right;
+  width: 35px;
+  height: 35px;
+  margin-top: 7px;
+  margin-right: 3px;
+  float: right;
 }
 
-.todo{
-  border:1px solid red;
+.todo {
+  border: 1px solid red;
 }
 
-.done{
-  border:1px solid #00d1b2;
+.done {
+  border: 1px solid #00d1b2;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes Home-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

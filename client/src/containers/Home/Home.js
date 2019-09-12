@@ -300,7 +300,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="Home">
         <div className="container">
           <Header />
           <div className="columns">
